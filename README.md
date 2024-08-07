@@ -1,4 +1,5 @@
-## Installation
-1. Clone the repo with the `--recurse-submodules` flag.
-2. Run `pip install -e .` in `robomimic`
-#3. (optional, for running ACT algorithm only) Run `pip install -e .` in `robomimic/act/detr`
+# Firework
+
+Codebase for the CoRL 2024 Anonymous Submission: **Multi-Task Interactive Robot Fleet Learning with Visual World Models**
+
+This codebase is build off open-source codebase [robocasa](https://github.com/robocasa/robocasa) and [robomimic](https://github.com/ARISE-Initiative/robomimic). 
