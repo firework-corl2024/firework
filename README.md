@@ -2,20 +2,37 @@
 
 <a href="https://ut-austin-rpl.github.io/sirius-fleet/" target="_blank"><img src="liu-corl24-siriusfleet.jpg" width="90%" /></a>
 
-<br> [Huihan Liu](https://huihanl.github.io/), [Yu Zhang](https://www.linkedin.com/in/yu-zhang-b004a9290/?trk=contact-info), [Vaarij Betala](https://www.linkedin.com/in/vaarij-betala/), [Evan Zhang](https://www.linkedin.com/in/evan-zhang-81a9a9269/), [James Liu](https://www.linkedin.com/in/jamesshuangliu/), [Crystal Ding](https://www.linkedin.com/in/ding-crystal/), [Yuke Zhu](https://yukezhu.me/)
+[Huihan Liu](https://huihanl.github.io/), [Yu Zhang](https://www.linkedin.com/in/yu-zhang-b004a9290/?trk=contact-info), [Vaarij Betala](https://www.linkedin.com/in/vaarij-betala/), [Evan Zhang](https://www.linkedin.com/in/evan-zhang-81a9a9269/), [James Liu](https://www.linkedin.com/in/jamesshuangliu/), [Crystal Ding](https://www.linkedin.com/in/ding-crystal/), [Yuke Zhu](https://yukezhu.me/)
 <br> [UT Austin Robot Perception and Learning Lab](https://rpl.cs.utexas.edu/)
 <br> Conference on Robot Learning, 2024
 <br> **[[Paper]](https://arxiv.org/abs/2410.22689)** &nbsp;**[[Project Website]](https://ut-austin-rpl.github.io/sirius-fleet/)**
 
 This codebase is build off open-source codebase [robocasa](https://github.com/robocasa/robocasa) and [robomimic](https://github.com/ARISE-Initiative/robomimic). 
 
-## Quickstart
+## Installation
 
-### Setup Codebase 
+1. Clone repo and set up conda environment: 
 
-#### Installing Sirius-Fleet
+```
+git clone https://github.com/UT-Austin-RPL/sirius-fleet
+conda env create -f sirius-fleet.yml
+```
 
-#### Installing robocasa
+2. Set up robosuite dependency (important: use the master branch!):
+
+```
+git clone https://github.com/ARISE-Initiative/robosuite
+cd robosuite
+pip install -e .
+```
+
+3. Install Sirius Fleet
+
+```
+cd sirius-fleet
+pip install -e .
+```
+
 
 ## Usage 
 
