@@ -36,13 +36,13 @@ pip install -e .
 
 ## Usage 
 
-### Data Paths:
+### Downloading data
 
 robocasa (simulation): [data]()
 
 mutex (real robot): [data]()
 
-### World Model Checkpoint Paths: 
+### Downloading Pretrained World Model Checkpoints
 
 robocasa (simulation): [checkpoint](https://utexas.box.com/s/8j3ktqg6ckig515n0479jcy4kfdydqqo)
 
@@ -54,8 +54,31 @@ mutex (real robot): [checkpoint](https://utexas.box.com/s/i4cw5q9ktq80sgpzcet4c4
 python robomimic/scripts/load_policy_example.py robocasa.pth
 ```
 
-### Running Sirius-Fleet
+### Training Sirius-Fleet
 
+#### World Model
+
+```
+python robomimic/scripts/train.py --config train_world_model.json
+```
+
+#### Failure Classifier
+
+We train the failure classifier basedo on the world model checkpoint `world_model.pth` from the previous timestep. 
+
+Change the data path for your own task (e.g., `OpenDoorSingleHinge.hdf5`). Note that this dataset is assumed to contain the attribute `` as classifier labels. 
+
+```
+python robomimic/scripts/train.py --config train_failure_classifier.json --pretrained_world_model world_model.pth --data_path OpenDoorSingleHinge.hdf5
+```
+
+#### Policy
+
+We use BC-Transformer policy architecture.
+
+```
+python robomimic/scripts/train.py --config train_policy.json
+```
 
 ## Acknowledgements
 
