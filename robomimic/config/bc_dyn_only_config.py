@@ -149,7 +149,7 @@ class BCDynOnlyConfig(BaseConfig):
         self.algo.dyn.dyn_train_embed_only = False
         self.algo.dyn.dyn_cell_type = "default"
         
-        """ Rewards """ 
+        """ Classifier """ 
         self.algo.dyn.train_reward = False
         self.algo.dyn.load_ckpt = ""
         self.algo.dyn.rew.use_action = True

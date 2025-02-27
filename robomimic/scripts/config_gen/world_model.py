@@ -17,21 +17,12 @@ task_names = [
     "CoffeeServeMug"
 ]
 
-task_names_baselines = [
-"CoffeeSetupMug",
-"OpenDoorDoubleHinge",
-"PnPCounterToCab",
-"TurnOffMicrowave",
-"TurnOffSinkFaucet",
-]
-
-
 def make_generator_helper(args):
     algo_name_short = "bc_xfmr"
 
     generator = get_generator(
         algo_name="bc",
-        config_file=os.path.join(base_path, 'robomimic/exps/templates/bc_transformer_dyn_only.json'),
+        config_file=os.path.join(base_path, 'robomimic/exps/templates/world_model.json'),
         args=args,
         algo_name_short=algo_name_short,
         pt=True,
@@ -39,18 +30,16 @@ def make_generator_helper(args):
     if args.ckpt_mode is None:
         args.ckpt_mode = "off"
 
-    if args.env == "spark":
+    if args.env == "robocasa":
         EVAL_TASKS = None
-
         generator.add_param(
             key="train.data",
             name="ds",
             group=2,
             values_and_names=[
-                (get_ds_cfg(task, src="round01", eval=EVAL_TASKS), task) for task in task_names_baselines
-                ]
+                (get_ds_cfg("robocasa_original", src="mg", eval=EVAL_TASKS, filter_frac=1.0), "mg-100p"),
+            ]
         )
-
 
         generator.add_param(
             key="algo.dyn.obs_sequence",
@@ -58,7 +47,7 @@ def make_generator_helper(args):
             group=23345,
             values=[
                    ["robot0_agentview_left_image",
-                    "robot0_eye_in_hand_image",]
+                    "robot0_eye_in_hand_image"]
                 ],
             value_names=["2images"]
         )
@@ -70,7 +59,7 @@ def make_generator_helper(args):
             name="ds",
             group=2,
             values_and_names=[
-                (get_ds_cfg("mutex", src="mutex", eval=EVAL_TASKS), "mutex"),
+                (get_ds_cfg("mutex_original", src="mutex", eval=EVAL_TASKS), "mutex"),
             ]
         )
 
@@ -90,17 +79,6 @@ def make_generator_helper(args):
             name="",
             group=2,
             values=["mutex"],
-        )
-
-    elif args.env == "r2d2":
-        generator.add_param(
-            key="train.data",
-            name="ds",
-            group=2,
-            values_and_names=[
-                ([{"path": p, "do_eval": False, "lang": "pick the can from the counter and place it in the sink"
-                    } for p in scan_datasets("~/datasets/r2d2/success/2023-05-29-t2s-cans", postfix="trajectory_im128.h5")], "pnp-counter-to-sink-can"),
-            ],
         )
 
 

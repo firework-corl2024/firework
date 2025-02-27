@@ -1,23 +1,5 @@
 from robomimic.scripts.config_gen.helper import *
 
-
-task_names = [
-    "CloseDoorSingleHinge",
-    "OpenDoorDoubleHinge",
-    "OpenDoorSingleHinge",
-    "TurnOnSinkFaucet",
-    "TurnOnMicrowave",
-    "TurnOffSinkFaucet",
-    "TurnOffMicrowave",
-    "PnPCounterToCab",
-    "PnPCabToCounter",
-    "PnPCounterToSink",
-    "PnPSinkToCounter",
-    "CoffeeSetupMug",
-    "CoffeeServeMug"
-]
-
-
 def make_generator_helper(args):
     algo_name_short = "bc_xfmr"
 
@@ -31,16 +13,14 @@ def make_generator_helper(args):
     if args.ckpt_mode is None:
         args.ckpt_mode = "off"
 
-    if args.env == "spark":
-        #"""
-        # EVAL_TASKS = ["PnPCounterToCab", "PnPCounterToStove", "TurnOnStove"]
+    if args.env == "robocasa":
         EVAL_TASKS = None
         generator.add_param(
             key="train.data",
             name="ds",
             group=2,
             values_and_names=[
-                (get_ds_cfg("hitl", src="round01", eval=EVAL_TASKS), "hitl-bc"),
+                (get_ds_cfg("robocasa_round0", src="robocasa", eval=EVAL_TASKS), "robocasa-bc"),
             ]
         )
     elif args.env == "mutex":
@@ -50,7 +30,7 @@ def make_generator_helper(args):
             name="ds",
             group=20000,
             values_and_names=[
-                (get_ds_cfg("mutex_round1_10tasks", src="mutex", eval=EVAL_TASKS, overwrite_ds_lang=True), "mutex_10"),
+                (get_ds_cfg("mutex_round0", src="mutex", eval=EVAL_TASKS, overwrite_ds_lang=True), "mutex-bc"),
             ]
         )
 
@@ -118,66 +98,7 @@ def make_generator_helper(args):
                 ],
         )
 
-    if args.use_weighted_bc_iwr:
-        generator.add_param(
-            key="train.use_weighted_bc",
-            name="use_wbc",
-            group=-1,
-            values=[True],
-            value_names=["T"],
-        )
-        
-        generator.add_param(
-            key="train.use_iwr_ratio",
-            name="iwr",
-            group=-1,
-            values=[True],
-            value_names=["T"],
-        )
-        
-        generator.add_param(
-            key="train.dataset_keys",
-            name="",
-            group=-1,
-            values=[
-                [
-                "actions",
-                "action_modes",
-                "intv_labels"
-                    ]
-                ],
-        )
-        
-    if args.use_weighted_bc_sirius:
-        generator.add_param(
-            key="train.use_weighted_bc",
-            name="use_wbc",
-            group=-1,
-            values=[True],
-            value_names=["T"],
-        )
-        
-        generator.add_param(
-            key="train.use_ours_ratio",
-            name="sirius",
-            group=-1,
-            values=[True],
-            value_names=["T"],
-        )
-        
-        generator.add_param(
-            key="train.dataset_keys",
-            name="",
-            group=-1,
-            values=[
-                [
-                "actions",
-                "action_modes",
-                "intv_labels"
-                    ]
-                ],
-        )
-
+    # finetune 
     if args.ckpt_path is not None:
 
         generator.add_param(
@@ -202,28 +123,11 @@ if __name__ == "__main__":
     parser = get_argparser()
 
     parser.add_argument(
-        "--remove_preintv_only_sampling",
-        action="store_true",
-    )
-    
-    parser.add_argument(
-        "--use_weighted_bc_iwr",
-        action="store_true",
-    )
-    
-    parser.add_argument(
-        "--use_weighted_bc_sirius",
-        action="store_true",
-    )   
-
-    parser.add_argument(
         "--ckpt_path",
         default=None,
         type=str,
     )
     
     args = parser.parse_args()
-    
-    assert args.remove_preintv_only_sampling + args.use_weighted_bc_iwr + args.use_weighted_bc_sirius <= 1
     
     make_generator(args, make_generator_helper)
