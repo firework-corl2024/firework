@@ -53,9 +53,9 @@ ln -s $MUTEX_DATASET_PATH ~/mutex
 
 #### Downloading human-in-the-loop data
 
-```
-python scripts/download_hitl_data.py
-```
+robocasa (simulation): download dataset [here](https://huggingface.co/datasets/huihanl/sirius-fleet-robocasa/tree/main)
+
+mutex (real robot): download dataset [here](https://huggingface.co/datasets/huihanl/sirius-fleet-mutex/tree/main)
 
 Create symlinks for the data so that the human-in-the-loop data will be saved at `~/robocasa_hitl` and `~/mutex_hitl`:
 
